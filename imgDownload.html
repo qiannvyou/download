@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<style>
+		.font-22{
+			font-size: 1.375rem;
+		}
+		.font-center{
+			text-align: center;
+		}
+		.download {
+			padding: 3rem 1rem;
+		}
+	</style>
+	<body>
+		<div class="download" id="app">
+			<img v-if="type==1" width="100%" height="100%"  :src="images" />
+			<p v-if="type==1" class="font-22 font-center">长按图片保存到相册</p>
+			<video
+				v-else
+				:src="videos"
+				class="video-source"
+			     width="100%"
+			　　　height="500px" 
+			     controls
+			     style="object-fit:fill" 
+			     webkit-playsinline="true" 
+			     x-webkit-airplay="true" 
+			     playsinline="true"
+			     x5-video-player-type="h5"
+			     x5-video-orientation="h5"
+			     x5-video-player-fullscreen="true"
+			     preload="auto">
+			</video>
+		</div>
+	</body>
+	<script src="js/vue.js"></script>
+	<script src="lib/jquery-2.0.0.min.js?V=14"></script>
+	<script>
+		new Vue({
+		        el:'#app',
+		        data: {
+					isShow:false,
+					images:'https://datamonitor.oss-cn-shenzhen.aliyuncs.com/guangben/0000.png',
+					videos:'https://datamonitor.oss-cn-shenzhen.aliyuncs.com/guangben/test.mp4',
+		            message:'hello vue.js.',
+					type:1,
+		        }
+		    });
+		
+		$.ajax({
+			type: "GET",
+			dataType: 'JSON',
+			url: "https://platform.easys.co/apiopen/getSignPackage",
+			success: function (res) {
+				console.log(res)
+				if (res.code == 200) {
+					var data = res.data;
+				}
+			},
+		});
+		
+	</script>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+<meta name="viewport"
+  content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no"> 
+<title>JS获取手机型号和系统</title> 
+<script src="https://cdn.bootcss.com/vConsole/3.2.2/vconsole.min.js"></script>
+<script>var vConsole = new VConsole();</script>
+</head> 
+<body> 
+	<div>
+		<p>获取到的手机品牌</p>
+		<p id="mobile"></p>
+		<p>获取到的手机型号</p>
+		<p id="model"></p>
+		<p>获取到的设备像素比</p>
+		<p id="devicePixelRatio"></p>
+		<p>获取到的手机屏幕宽度</p>
+		<p id="width"></p>
+		<p>获取到的手机屏幕高度</p>
+		<p id="height"></p>
+	</div>
+</body> 
+<script src="js/jquery-1.11.1.min.js"></script> 
+<script src="js/mobile-detect.min.js"></script> 
+<script> 
+  
+  //判断数组中是否包含某字符串 
+  Array.prototype.contains = function(needle) { 
+    for (i in this) { 
+      if (this[i].indexOf(needle) > 0) 
+        return i; 
+    } 
+    return -1; 
+  } 
+  
+  var device_type = navigator.userAgent;//获取userAgent信息 
+  //document.write(device_type);//打印到页面 
+ 
+  var md = new MobileDetect(device_type);//初始化mobile-detect 
+  var os = md.os();//获取系统 
+  var model = ""; 
+  if (os == "iOS") {//ios系统的处理 
+    os = md.os() + md.version("iPhone"); 
+    model = md.mobile(); 
+	console.log( md.mobile() );
+	console.log( md.phone() );
+	console.log("获取到的型号",model);
+  } else if (os == "AndroidOS") {//Android系统的处理 
+    os = md.os() + md.version("Android"); 
+    var sss = device_type.split(";"); 
+	  console.log('sss',sss)
+	  console.log('os',os)
+    var i = sss.contains("Build/"); 
+	console.log('i',i)
+    if (i > -1) { 
+      model = sss[i].substring(0, sss[i].indexOf("Build/")); 
+    } 
+  } 
+  //document.write(model);
+  document.getElementById('mobile').innerHTML = md._cache
+  document.getElementById('model').innerHTML = model
+  document.getElementById('width').innerHTML = window.screen.width
+  document.getElementById('height').innerHTML = window.screen.height
+  document.getElementById('devicePixelRatio').innerHTML = window.devicePixelRatio
+  
+  console.log("---" + model)
+  console.log('前女友',navigator);
+  var userAgent = navigator.userAgent;
+  console.log('userAgent.match',userAgent.match)
+  
+  if(userAgent.match(!/vivo/)){
+  console.log("这是vivo手机")
+  }else if(userAgent.match(/samsung/i)){
+  console.log("这是三星手机")
+  }else if(userAgent.match(/huawei/i)){
+  cosole.log("这是华为手机")
+  }
+  else{
+	  console.log("这是其他手机")
+  }
+  //alert(os + "---" + model);//打印系统版本和手机型号 
+</script> 
+</html>
